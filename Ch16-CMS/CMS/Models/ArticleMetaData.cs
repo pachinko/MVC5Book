@@ -24,9 +24,9 @@ namespace CMS.Models
             public string ContentText { get; set; }
             [DisplayName("是否發佈")]
             public bool IsPublich { get; set; }
-            [DisplayName("發佈日期")]
-            [DataType(DataType.Date)]
-            public System.DateTime PublishDate { get; set; }
+//            [DisplayName("發佈日期")]
+////            [DataType(DataType.Date)]
+//            public System.DateTime PublishDate { get; set; }
             [DisplayName("瀏覽次數")]
             public int ViewCount { get; set; }
             [DisplayName("建立者")]

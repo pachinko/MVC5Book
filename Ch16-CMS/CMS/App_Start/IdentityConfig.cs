@@ -54,10 +54,10 @@ namespace CMS
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+//                RequireNonLetterOrDigit = true,
+//                RequireDigit = true,
+//                RequireLowercase = true,
+//                RequireUppercase = true,
             };
 
             // 設定使用者鎖定詳細資料

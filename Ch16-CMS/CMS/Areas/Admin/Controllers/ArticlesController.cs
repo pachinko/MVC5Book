@@ -9,20 +9,50 @@ using System.Web.Mvc;
 using CMS.Models;
 using Microsoft.Security.Application;
 using PagedList;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 
 namespace CMS.Areas.Admin.Controllers
 {
+    [Authorize]
     public class ArticlesController : Controller
     {
+        ////ArticlesController()
+        ////{
+        ////    this.ApplicationDbContext = new ApplicationDbContext();
+        ////    this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+        ////}
+        ///// <summary>
+        ///// Application DB context
+        ///// </summary>
+        //protected ApplicationDbContext ApplicationDbContext { get; set; }
+
+        ///// <summary>
+        ///// User manager - attached to application DB context
+        ///// </summary>
+        //protected UserManager<ApplicationUser> UserManager { get; set; }
+
         private CMSDatabaseEntities db = new CMSDatabaseEntities();
 
         // GET: Admin/Articles
         public ActionResult Index(string q,int page=1,int pageSize=3)
         {
+            //this.ApplicationDbContext = new ApplicationDbContext();
+            //this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+
             var model = db.Article.AsQueryable();
-            if (string.IsNullOrWhiteSpace(q)==false)
+            Guid curUserID = Guid.Parse(User.Identity.GetUserId());
+
+//            if (string.IsNullOrWhiteSpace(q)==false)
             {
-                model = model.Where(d => d.Subject.Contains(q) || d.Summary.Contains(q));
+                //}
+                //model = model.Where(
+                //    d => d.Subject.Contains(q) 
+                //    || d.Summary.Contains(q));
+                // 我目前只要做出「 cur user 只能看到自己貼的行程」
+                // 然後要做出「 marketing manager 能看到所有人的行程」。
+                model = model.Where(
+                    d => d.CreateUser.Equals(curUserID) );
             }
 
             var result = model.OrderBy(d => d.CreateDate).ToPagedList(page, pageSize);
@@ -62,9 +92,15 @@ namespace CMS.Areas.Admin.Controllers
                 article.ID = Guid.NewGuid();
                 article.CreateDate = DateTime.Now;
                 article.UpdateDate = DateTime.Now;
+                //                ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+                //                var user = UserManager.FindById(User.Identity.GetUserId());
+
+                var thisUser = User;
                 //因為還沒做會員所以先給假的
-                article.CreateUser = Guid.Empty;
-                article.UpdateUser = Guid.Empty;
+                article.CreateUser = Guid.Parse(User.Identity.GetUserId());
+                article.UpdateUser = Guid.Parse(User.Identity.GetUserId());
+
 
                 //過濾XSS
                 article.ContentText = Sanitizer.GetSafeHtmlFragment(article.ContentText);
