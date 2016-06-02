@@ -1,14 +1,19 @@
 CREATE TABLE [dbo].[Article]
 (
 	[ID] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
-    [Subject] NVARCHAR(50) NOT NULL, 
-    [Summary] NVARCHAR(500) NOT NULL, 
-    [ContentText] NVARCHAR(MAX) NOT NULL, 
-    [IsPublich] BIT NOT NULL, 
-    [PublishDate] DATETIME NOT NULL, 
-    [ViewCount] INT NOT NULL, 
+	[VisitDate] DATETIME NOT NULL, 
     [CreateUser] UNIQUEIDENTIFIER NOT NULL, 
-    [CreateDate] DATETIME NOT NULL, 
+	[Hospital] NVARCHAR(50) NOT NULL, 
+	[VisitTarget] NVARCHAR(50),
+	[CallNotes]	NVARCHAR(MAX) ,
+	[VisitFee]  INT ,
+	[TransportFee] INT ,
+	[Misc]	NVARCHAR(MAX) ,
+	
+    [PublishDate] DATETIME,
+    [ViewCount] INT,
+    [CreateDate] DATETIME, 
     [UpdateUser] UNIQUEIDENTIFIER NULL, 
-    [UpdateDate] DATETIME NOT NULL
+    [UpdateDate] DATETIME
 )
+

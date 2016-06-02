@@ -26,20 +26,10 @@ namespace CMS.Models
             public string VisitTarget { get; set; }
 
 
-            [DisplayName("主題")]
-            public string Subject { get; set; }
-
-            [DisplayName("簡介")]
-            public string Summary { get; set; }
-
             [DisplayName("Call Notes")]
             [UIHint("Html")]
             [AllowHtml]
-            public string ContentText { get; set; }
-
-            [DisplayName("是否發佈")]
-            public bool IsPublich { get; set; }
-
+            public string CallNotes { get; set; }
 
 
             [DisplayName("瀏覽次數")]

@@ -85,28 +85,39 @@ namespace CMS.Areas.Admin.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Subject,Summary,ContentText,IsPublich,PublishDate,ViewCount,CreateUser,CreateDate,UpdateUser,UpdateDate")] Article article)
+        public ActionResult Create([Bind(Include = "ID, Hospital, VisitTarget, CallNotes,PublishDate,ViewCount,CreateUser,CreateDate,UpdateUser,UpdateDate")] Article article)
+//        public ActionResult Create([Bind(Include = "ID,CallNotes,PublishDate,CreateUser,CreateDate,UpdateUser,UpdateDate")] Article article)
         {
-            if (ModelState.IsValid)
+            try
             {
-                article.ID = Guid.NewGuid();
-                article.CreateDate = DateTime.Now;
-                article.UpdateDate = DateTime.Now;
-                //                ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                if (ModelState.IsValid)
+                {
+                    article.ID = Guid.NewGuid();
 
-                //                var user = UserManager.FindById(User.Identity.GetUserId());
+                    article.Hospital = Sanitizer.GetSafeHtmlFragment(article.Hospital);
+                    article.VisitTarget = Sanitizer.GetSafeHtmlFragment(article.VisitTarget);
 
-                var thisUser = User;
-                //因為還沒做會員所以先給假的
-                article.CreateUser = Guid.Parse(User.Identity.GetUserId());
-                article.UpdateUser = Guid.Parse(User.Identity.GetUserId());
+                    article.VisitDate = DateTime.Now;
+                    article.CreateDate = DateTime.Now;
+                    article.UpdateDate = DateTime.Now;
+
+                    var thisUser = User;
+                    // 目前登入的使用者
+                    article.CreateUser = Guid.Parse(User.Identity.GetUserId());
+                    article.UpdateUser = Guid.Parse(User.Identity.GetUserId());
 
 
-                //過濾XSS
-                article.ContentText = Sanitizer.GetSafeHtmlFragment(article.ContentText);
-                db.Article.Add(article);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    //過濾XSS
+                    article.CallNotes = Sanitizer.GetSafeHtmlFragment(article.CallNotes);
+                    db.Article.Add(article);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (Exception excep)
+            {
+                string str = excep.ToString();
             }
 
             return View(article);
@@ -132,12 +143,12 @@ namespace CMS.Areas.Admin.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Subject,Summary,ContentText,IsPublich,PublishDate,ViewCount,CreateUser,CreateDate,UpdateUser,UpdateDate")] Article article)
+        public ActionResult Edit([Bind(Include = "ID,CallNotes,PublishDate,ViewCount,CreateUser,CreateDate,UpdateUser,UpdateDate")] Article article)
         {
             if (ModelState.IsValid)
             {
                 //過濾XSS
-                article.ContentText = Sanitizer.GetSafeHtmlFragment(article.ContentText);
+                article.CallNotes = Sanitizer.GetSafeHtmlFragment(article.CallNotes);
 
                 article.CreateDate = DateTime.Now;
                 article.UpdateDate = DateTime.Now;

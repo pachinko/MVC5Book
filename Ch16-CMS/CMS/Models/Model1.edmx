@@ -4,22 +4,25 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CMSDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CMSDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Article">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Subject" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Summary" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="ContentText" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="IsPublich" Type="bit" Nullable="false" />
-          <Property Name="PublishDate" Type="datetime" Nullable="false" />
-          <Property Name="ViewCount" Type="int" Nullable="false" />
+          <Property Name="VisitDate" Type="datetime" Nullable="false" />
           <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="Hospital" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="VisitTarget" Type="nvarchar" MaxLength="50" />
+          <Property Name="CallNotes" Type="nvarchar(max)" />
+          <Property Name="VisitFee" Type="int" />
+          <Property Name="TransportFee" Type="int" />
+          <Property Name="Misc" Type="nvarchar(max)" />
+          <Property Name="PublishDate" Type="datetime" />
+          <Property Name="ViewCount" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
           <Property Name="UpdateUser" Type="uniqueidentifier" />
-          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
         </EntityType>
         <EntityContainer Name="CMSDatabaseModelStoreContainer">
           <EntitySet Name="Article" EntityType="Self.Article" Schema="dbo" store:Type="Tables" />
@@ -34,16 +37,19 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="Subject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Summary" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ContentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsPublich" Type="Boolean" Nullable="false" />
-          <Property Name="PublishDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ViewCount" Type="Int32" Nullable="false" />
+          <Property Name="VisitDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreateUser" Type="Guid" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Hospital" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="VisitTarget" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CallNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VisitFee" Type="Int32" />
+          <Property Name="TransportFee" Type="Int32" />
+          <Property Name="Misc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PublishDate" Type="DateTime" Precision="3" />
+          <Property Name="ViewCount" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="UpdateUser" Type="Guid" />
-          <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityContainer Name="CMSDatabaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Article" EntityType="Self.Article" />
@@ -58,13 +64,16 @@
             <EntityTypeMapping TypeName="CMSDatabaseModel.Article">
               <MappingFragment StoreEntitySet="Article">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Subject" ColumnName="Subject" />
-                <ScalarProperty Name="Summary" ColumnName="Summary" />
-                <ScalarProperty Name="ContentText" ColumnName="ContentText" />
-                <ScalarProperty Name="IsPublich" ColumnName="IsPublich" />
+                <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="Hospital" ColumnName="Hospital" />
+                <ScalarProperty Name="VisitTarget" ColumnName="VisitTarget" />
+                <ScalarProperty Name="CallNotes" ColumnName="CallNotes" />
+                <ScalarProperty Name="VisitFee" ColumnName="VisitFee" />
+                <ScalarProperty Name="TransportFee" ColumnName="TransportFee" />
+                <ScalarProperty Name="Misc" ColumnName="Misc" />
                 <ScalarProperty Name="PublishDate" ColumnName="PublishDate" />
                 <ScalarProperty Name="ViewCount" ColumnName="ViewCount" />
-                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
@@ -88,7 +97,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
