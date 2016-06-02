@@ -14,25 +14,40 @@ namespace CMS.Models
         public class ArticleMetaData
         {
             public System.Guid ID { get; set; }
+
+            [DisplayName("行程日期")]
+            ////            [DataType(DataType.Date)]
+            public System.DateTime PublishDate { get; set; }
+
+            [DisplayName("醫院")]
+            public string Hospital { get; set; }
+
+            [DisplayName("單位 & 人員")]
+            public string VisitTarget { get; set; }
+
+
             [DisplayName("主題")]
             public string Subject { get; set; }
+
             [DisplayName("簡介")]
             public string Summary { get; set; }
-            [DisplayName("內容")]
+
+            [DisplayName("Call Notes")]
             [UIHint("Html")]
             [AllowHtml]
             public string ContentText { get; set; }
+
             [DisplayName("是否發佈")]
             public bool IsPublich { get; set; }
-//            [DisplayName("發佈日期")]
-////            [DataType(DataType.Date)]
-//            public System.DateTime PublishDate { get; set; }
+
+
+
             [DisplayName("瀏覽次數")]
             public int ViewCount { get; set; }
             [DisplayName("建立者")]
             public System.Guid CreateUser { get; set; }
-            [DisplayName("建立時間")]
-            public System.DateTime CreateDate { get; set; }
+
+
             [DisplayName("修改者")]
             public Nullable<System.Guid> UpdateUser { get; set; }
             [DisplayName("修改時間")]

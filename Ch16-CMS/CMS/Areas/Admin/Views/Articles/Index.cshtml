@@ -25,6 +25,51 @@ FormMethod.Get, new { @class = "navbar-form navbar-left", role = "search" }))
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hospital)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VisitTarget)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContentText)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hospital)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitTarget)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContentText)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+@*<table class="table">
+    <tr>
+        <th>
             @Html.DisplayNameFor(model => model.Subject)
         </th>
         <th>
@@ -98,5 +143,6 @@ FormMethod.Get, new { @class = "navbar-form navbar-left", role = "search" }))
         </tr>
     }
 
-</table>
+</table>*@
+
 @Html.PagedListPager((IPagedList)Model, x => Url.Action("Index", new { page = x }))

@@ -15,6 +15,12 @@ namespace CMS.Models
     public partial class Article
     {
         public System.Guid ID { get; set; }
+
+        public string Hospital { get; set; }
+
+        public string VisitTarget { get; set; }
+
+
         public string Subject { get; set; }
         public string Summary { get; set; }
         public string ContentText { get; set; }
