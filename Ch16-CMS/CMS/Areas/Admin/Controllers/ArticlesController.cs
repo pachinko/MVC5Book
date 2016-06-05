@@ -43,16 +43,20 @@ namespace CMS.Areas.Admin.Controllers
             var model = db.Article.AsQueryable();
             Guid curUserID = Guid.Parse(User.Identity.GetUserId());
 
-//            if (string.IsNullOrWhiteSpace(q)==false)
+            // 我目前只要做出「 current user 只能看到自己貼的行程」
+            // 然後要做出「 marketing manager 能看到所有人的行程」。
+            bool bContains = User.Identity.Name.Contains("@gmail.com");
+            if (bContains)
+                //if (User.IsInRole("management") )
             {
-                //}
-                //model = model.Where(
-                //    d => d.Subject.Contains(q) 
-                //    || d.Summary.Contains(q));
-                // 我目前只要做出「 cur user 只能看到自己貼的行程」
-                // 然後要做出「 marketing manager 能看到所有人的行程」。
-                model = model.Where(
-                    d => d.CreateUser.Equals(curUserID) );
+                // management sees all.
+                model = model.Where(item => item.Hospital.Contains("") );
+
+            }
+            else
+            {
+                model = model.Where(item => item.CreateUser.Equals(curUserID));
+
             }
 
             var result = model.OrderBy(d => d.CreateDate).ToPagedList(page, pageSize);

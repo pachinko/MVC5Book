@@ -250,6 +250,7 @@
     </Content>
     <None Include="Properties\PublishProfiles\CMS20160602010637 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\CMS20160602124112 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\mediunion - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />

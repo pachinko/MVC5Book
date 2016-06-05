@@ -1,14 +1,12 @@
-﻿using System;
-using System.Globalization;
+﻿using CMS.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using CMS.Models;
 
 namespace CMS.Controllers
 {
@@ -21,10 +19,12 @@ namespace CMS.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = roleManager;
+            
         }
 
         public ApplicationUserManager UserManager
@@ -145,6 +145,22 @@ namespace CMS.Controllers
             return View();
         }
 
+        private ApplicationRoleManager _roleManager;
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                var context = HttpContext.GetOwinContext();
+                ApplicationRoleManager test = HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+
+
         //
         // POST: /Account/Register
         [HttpPost]
@@ -159,6 +175,23 @@ namespace CMS.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    //角色名稱
+                    var roleName = "management";
+
+                    //判斷角色是否存在
+                    if (RoleManager.RoleExists(roleName) == false)
+                    {
+                        //角色不存在,建立角色
+                        var role = new IdentityRole(roleName);
+                        await RoleManager.CreateAsync(role);
+                    }
+
+                    if (user.UserName == "leeching@gmail.com" ) {
+                        //將使用者加入該角色
+                        await UserManager.AddToRoleAsync(user.Id, roleName);
+                    }
+                    
                     
                     // 如需如何啟用帳戶確認和密碼重設的詳細資訊，請造訪 http://go.microsoft.com/fwlink/?LinkID=320771
                     // 傳送包含此連結的電子郵件
